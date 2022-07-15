@@ -1,0 +1,11 @@
+/logs/
+/cache/
+/data/
+/build/
+/dist/
+/tests/
+
+*.iml
+.idea
+/tspd_osm.egg-info/
+.env
