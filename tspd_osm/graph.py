@@ -1,5 +1,6 @@
 import math
 import sys
+from datetime import datetime
 from typing import Optional, Union, Iterable
 
 import matplotlib.pyplot as plt
@@ -220,6 +221,7 @@ class GraphFactory:
         :type margin: float
         """
         self.__meta = dataset.meta.copy()
+        self.__name = dataset.name
         start, end, img = get_dataset_street_image(dataset, margin)
         self.__boundary = (start, end)
         self.__meter_boundary = (calc_lon_distance(start, end), calc_lat_distance(start, end))
@@ -421,7 +423,21 @@ class GraphFactory:
         :return:  None
         :rtype:  None
         """
-        plt.savefig(filename, dpi=300, bbox_inches='tight', pad_inches=0)
+        plt.savefig(
+            filename,
+            dpi=300,
+            bbox_inches='tight',
+            pad_inches=0,
+            metadata={
+                'Title': f"Node graph of {self.__name}",
+                'Author': "J. Xiao and R. Zhang",
+                'Description': "A node graph of the dataset, describing the calculated shortest paths.",
+                "Copyright": "Copyright (c) 2022 J. Xiao and R. Zhang; "
+                             "Map Copyright: © OpenStreetMap contributors (https://openstreetmap.org/copyright), "
+                             "licensed under CC-BY-SA 2.0.",
+                "Creation Time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            }
+        )
 
 
 def __main__():
@@ -435,7 +451,7 @@ def __main__():
     fac.draw_truck_edges({
         (0, 2): "T1",
     })
-    fac.save("test.png")
+    fac.save("./tests/test.png")
     fac.show()
 
 
