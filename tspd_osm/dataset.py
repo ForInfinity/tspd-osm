@@ -1,4 +1,5 @@
 import os
+import random
 from random import sample
 from typing import List
 
@@ -112,6 +113,7 @@ def fetch_data_from_geo_list(file_path: str = './geo_list.xlsx'):
             result_length = len(result)
             logger.debug(f'\t=> {result_length} results found for: {target}')
             if result and result_length > 0:
+                random.shuffle(result)
                 if result_length > mean_len:
                     osm_objects_results.extend(result[:mean_len])
                     extra_osm_objects.extend(result[mean_len:])

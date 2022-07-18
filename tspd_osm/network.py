@@ -97,7 +97,7 @@ def nominatim_place_query(target="school", postal_code="", city="", country_code
     if country_code:
         params["countrycodes"] = country_code
     if limit_count:
-        params["limit"] = limit_count
+        params["limit"] = max(limit_count, 30)
 
     result = rate_limit_nominatim_query(query_string, params=params).toJSON()
     if len(result) == 0:
