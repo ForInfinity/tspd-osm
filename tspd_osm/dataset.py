@@ -81,10 +81,19 @@ def generate_map_dataset(places: list[OSMObject], name: str = None) -> MapDatase
 def fetch_data_from_geo_list(file_path: str = './geo_list.xlsx'):
     logger.info('Fetching data from geo list..')
     geo_list = load_geo_list(file_path)
-
+    used_names = set()
     for geo in geo_list:
         target_number = geo.number_of_data_points
-        dataset_name = f'{geo.country_code}_{geo.city}_{geo.postal_code}'.replace(' ', '_')
+        dataset_name = f'{geo.country_code}_{geo.city}_{geo.postal_code}_{target_number}'.replace(' ', '_')
+        if dataset_name in used_names:
+            nr = 1
+            new_name = f"{dataset_name}_({nr})"
+            while new_name in used_names:
+                nr += 1
+                new_name = f"{dataset_name}_({nr})"
+            dataset_name = new_name
+        used_names.add(dataset_name)
+
         os.makedirs('./data/', exist_ok=True)
         filename = f'./data/{dataset_name}.xlsx'
         if os.path.exists(filename):
