@@ -111,17 +111,16 @@ def get_street_image(start: LatLon, end: LatLon, zoom: int = 12) -> Optional[Ima
             try:
                 # Read from cache
                 current_tile += 1
-                print(
-                    f"\x1b[1K\r...({current_tile: <3d}/{tile_count: >3d}) Tile: {zoom}_{tile_x}_{tile_y}",
-                    end="",
-                    flush=True
-                )
+                # logger.debug(
+                #     f"\x1b[1K\r...({current_tile: <3d}/{tile_count: >3d}) Tile: {zoom}_{tile_x}_{tile_y}"
+                # )
                 tile: Image.Image = fetch_image_tile(tile_x, tile_y, zoom)
                 cluster.paste(tile, box=((tile_x - xmin) * 256, (tile_y - ymin) * 255))
             except Exception as e:
                 logger.error(f"Couldn't download image tile ({tile_x}, {tile_y})")
                 logger.error(e)
                 return None
+    print('')
     # crop
     cropped_cluster = cluster.crop((crop_left, crop_top, cluster_width - crop_right, cluster_height - crop_bottom))
 

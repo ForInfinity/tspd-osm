@@ -131,7 +131,10 @@ def fetch_data_from_geo_list(file_path: str = './geo_list.xlsx'):
             raise Exception(
                 f'only {len(osm_objects_results)} OSM objects found, please readjust parameters of {dataset_name}!')
         if len(osm_objects_results) < target_number:
-            logger.warning(f'{len(osm_objects_results)} OSM objects found, but 30 expected')
-        dataset = generate_map_dataset(list(map(lambda v: OSMObject.from_json(v), iter(osm_objects_results))),
-                                       name=dataset_name)
-        dataset.write_to_xlsx(filename)
+            logger.error(
+                f'{dataset_name}: {len(osm_objects_results)} OSM objects found, but 30 expected! '
+                f'Dataset will not be generated!')
+        else:
+            dataset = generate_map_dataset(list(map(lambda v: OSMObject.from_json(v), iter(osm_objects_results))),
+                                           name=dataset_name)
+            dataset.write_to_xlsx(filename)

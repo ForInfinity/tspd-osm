@@ -196,10 +196,10 @@ def fetch_image_tile(x_tile, y_tile, zoom) -> Optional[Image.Image]:
         try:
             tile = Image.open(cache_name)
         except OSError:
-            logger.warning("Failed to open image file: {}".format(cache_name))
+            logger.warning("Failed to open image file: {}\n".format(cache_name))
     if tile is None:
         imgurl = smurl.format(zoom, x_tile, y_tile)
-        logger.debug("Download from URL: " + imgurl)
+        # logger.debug("\x1b[1K\rDownload from URL: " + imgurl)
         _rate_limit("street_img_query", min_osm_tile_query_gap)
         response = requests.get(
             url=imgurl,
@@ -209,7 +209,7 @@ def fetch_image_tile(x_tile, y_tile, zoom) -> Optional[Image.Image]:
             }
         )
         tile = Image.open(BytesIO(response.content))
-        logger.debug("Saving to cache: {}".format(cache_name))
+        # logger.debug("\x1b[1K\rSaving to cache: {}".format(cache_name))
         with open(cache_name, "wb") as f:
             f.truncate(0)
             tile.save(f, format="PNG")
