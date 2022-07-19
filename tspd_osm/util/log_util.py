@@ -11,7 +11,7 @@ def setup_logging():
     os.makedirs('./logs', exist_ok=True)
     if _module_logger is not None:
         return _module_logger
-    loglevel = 'DEBUG'
+    loglevel = 'INFO'
     # logger
     _module_logger = logging.getLogger('tspd_osm')
     _module_logger.setLevel(logging.DEBUG)
