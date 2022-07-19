@@ -356,6 +356,7 @@ class GraphFactory:
             width=self.__edge_width,
             arrows=True,
             arrowsize=self.__edge_width * 8,
+            node_size=self.__node_size,
             arrowstyle="-|>",
             **edge_args)
 
